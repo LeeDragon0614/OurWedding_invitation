@@ -874,7 +874,7 @@ body.ready .scroll-ind span:nth-child(2){animation-delay:.2s}
     ball.style.opacity=0; $('iheart').classList.add('on'); $('inet').classList.add('down');
     $('sg').classList.add('together'); $('sb2').classList.add('together');
     $('sbTop').textContent='평생 복식조 결성'; setScore('♥');
-    say('결과: 둘 다 반했습니다');
+    say('결과: 서로 반했습니다!');
   }
   function party(){confetti();$('ititle').classList.add('on');act(gImg,'hop');setTimeout(function(){act(bImg,'hop')},150);}
 
@@ -987,7 +987,7 @@ body.ready .scroll-ind span:nth-child(2){animation-delay:.2s}
 <script>
 (function(){
   // ===== 게스트스냅 설정 =====
-  var UPLOAD_URL='';                          // 구글 Apps Script 웹앱 주소를 넣으면 실제 업로드가 동작합니다
+  var UPLOAD_URL='https://script.google.com/macros/s/AKfycbxtBczgC7-Mqi3cfCGqpAgrpfL0s3kFJv24bXpBSRMAg5pyTqgRakQ0nz_ilXCmwkm51w/exec';                          // 구글 Apps Script 웹앱 주소를 넣으면 실제 업로드가 동작합니다
   var OPEN=Date.UTC(2027,1,28,15,0,0);        // 2027-03-01 00:00 (한국 시간)
   var CLOSE=Date.UTC(2027,2,8,15,0,0);        // 2027-03-08 24:00 (한국 시간)
   var MAX_FILES=20, MAX_MB=30;
@@ -1001,11 +1001,12 @@ body.ready .scroll-ind span:nth-child(2){animation-delay:.2s}
     page.hidden=!on; document.body.classList.toggle('sp-open',on);
     if(on){page.scrollTop=0; setTimeout(function(){$('sp-title').focus&&$('sp-title').setAttribute('tabindex','-1')},0)}
   }
-  function route(){show(location.hash==='#snap')}
+  function route(){show(location.hash==='#snap'||location.hash==='#snaptest')}
   addEventListener('hashchange',route); route();
   page.querySelectorAll('.sp-back,.sp-back2').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();if(busy&&!confirm('업로드가 진행 중이에요. 그만두고 나갈까요?'))return;history.length>1&&location.hash==='#snap'?history.back():(location.hash='');setTimeout(route,50)})});
 
   function state(){
+    if(location.hash==='#snaptest') return 'open'; // 신랑·신부 테스트용: 기간과 상관없이 업로드 가능
     var now=Date.now();
     if(now<OPEN) return 'before';
     if(now>=CLOSE) return 'after';
