@@ -166,6 +166,9 @@ body.ready .ball{opacity:1;animation:serve 1.1s cubic-bezier(.3,.6,.4,1) .15s bo
 .l1{background:#0052A4}.l2{background:#00A84D}
 .park{display:flex;gap:8px;align-items:center;margin:10px 0 0;padding-top:10px;border-top:1px dashed var(--rule);font-size:12.5px;color:var(--soft)}
 .pk{background:#7A8CA8}
+.flower-note{background:#FFFFFF;border:1px solid var(--rule);border-radius:12px;padding:16px 14px 18px;margin:0 0 28px}
+.flower-note .ic{display:block;font-size:22px;line-height:1;margin-bottom:8px}
+.flower-note p{margin:0;font-size:13.5px;line-height:1.85;color:var(--ink)}
 .traffic-note{margin:18px 4px 0;text-align:left;font-size:13px;line-height:1.7;color:var(--accent)}
 .info .stop{margin:14px 0 6px;font-size:13px;font-weight:700;color:var(--ink)}
 .info h3 + .stop{margin-top:0}
@@ -563,6 +566,7 @@ body.ready .scroll-ind span:nth-child(2){animation-delay:.2s}
 <section aria-labelledby="h-gift" style="background:var(--paper)">
   <p class="label">WITH HEART</p>
   <h2 id="h-gift">마음 전하실 곳</h2>
+  <div class="flower-note"><span class="ic" aria-hidden="true">💐</span><p>화환은 정중히 사양합니다.<br>테니스 왕자님과 산속의 공주님의 첫 경기에<br>응원만 보내주세요 🎾⛰️</p></div>
   <p class="lead2">참석이 어려우신 분들을 위해<br>마음 전하실 곳을 안내드립니다.<br><br>따뜻한 축하의 마음,<br>저희 두 사람 오래 간직하겠습니다.</p>
   <div id="accts"></div>
 </section>
@@ -577,7 +581,7 @@ body.ready .scroll-ind span:nth-child(2){animation-delay:.2s}
     <p class="hl">📸 저희의 스냅 작가가 되어주세요! 📸</p>
     <p>🎁 참여해 주신 분들 중 가장 멋진 순간을<br>담아주신 <b>한 분께</b><br><b>탄자니아에서 건너오는 소정의 선물</b>을 드립니다!</p>
     <p>예식 당일, 아래 버튼을 눌러 올려주세요.<br>소중한 날 함께해 주셔서 감사합니다 💖</p>
-    <a class="btn snap-btn" id="snapBtn" href="#snap">사진·영상 올리러 가기 ›</a>
+    <a class="btn snap-btn is-off" id="snapBtn" href="#snap" aria-disabled="true" tabindex="-1">사진 및 영상 업로드 <small>(3월 1일 OPEN)</small></a>
   </div>
 </section>
 
@@ -1095,6 +1099,18 @@ body.ready .scroll-ind span:nth-child(2){animation-delay:.2s}
     files=[]; $('spDone').hidden=true; $('spForm').hidden=false; $('spBar').style.width='0'; say(''); refresh(); page.scrollTop=0;
   });
   refresh(); setInterval(refresh,60000);
+  // 청첩장 본문의 이벤트 버튼: 3월 1일 0시부터 눌림, 3월 9일 0시부터 마감 표시
+  (function(){
+    var mb=document.getElementById('snapBtn'); if(!mb) return;
+    function upd(){
+      var now=Date.now(), on=now>=OPEN&&now<CLOSE;
+      mb.classList.toggle('is-off',!on);
+      if(on){mb.removeAttribute('aria-disabled');mb.removeAttribute('tabindex');mb.innerHTML='사진·영상 올리러 가기 ›'}
+      else{mb.setAttribute('aria-disabled','true');mb.setAttribute('tabindex','-1');mb.innerHTML=now<OPEN?'사진 및 영상 업로드 <small>(3월 1일 OPEN)</small>':'업로드가 마감되었어요'}
+    }
+    mb.addEventListener('click',function(e){if(mb.classList.contains('is-off'))e.preventDefault()});
+    upd(); setInterval(upd,60000);
+  })();
 })();
 </script>
 <script>
